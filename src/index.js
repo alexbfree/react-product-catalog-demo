@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { Button } from '@material-ui/core';
+import ProductCatalog from './components/ProductCatalog'
 
 function App() {
   return (
-    <Button variant="contained" color="primary">
-      Hello World
-    </Button>
+    <ProductCatalog />
   );
 }
 

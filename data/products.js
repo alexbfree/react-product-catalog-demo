@@ -40,7 +40,14 @@ const products = [
         description: "The Dark Knight is a 2008 superhero film directed, co-written, and produced by Christopher Nolan. Based on the DC Comics character Batman, the film is the second part of Nolan's The Dark Knight Trilogy.",
         price: 14.99,
         image: "https://via.placeholder.com/150"
-    }
+    },
+    {
+        id: 7,
+        name: "DVD: The Shawshank Redemption",
+        price: 14.99,
+        description: "The Shawshank Redemption is a 1994 American drama film written and directed by Frank Darabont, based on the 1982 Stephen King novella Rita Hayworth and Shawshank Redemption. It stars Tim Robbins as Andy Dufresne, a banker who is sentenced to life in Shawshank State Penitentiary for the murder of his wife and her lover, despite his claims of innocence.",
+        image: "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",
+      },
 ];
 
 export default products;
