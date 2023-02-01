@@ -2,9 +2,8 @@ import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { ImageList, ImageListItem, ImageListItemBar } from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import ProductData from '../../data/products';
-import Modal from '@material-ui/core/Modal';
 import '../css/custom.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,9 +26,6 @@ const useStyles = makeStyles((theme) => ({
 const ProductCatalog = () => {
   const classes = useStyles();
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-
   return (
     <>
         <div className={classes.root}>
@@ -46,7 +42,7 @@ const ProductCatalog = () => {
                         className={classes.icon}
                         onClick={() => openModal(product)}
                         >
-                        <ShoppingCartIcon />
+                        <AddShoppingCartIcon />
                         </IconButton>
                     }
                     />
