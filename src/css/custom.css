@@ -1,3 +1,7 @@
+.smaller-hero {
+    padding: 36px 0px 0px;
+}
+
 .MuiImageListItem-item img {
     display:block;
     width:inherit;
