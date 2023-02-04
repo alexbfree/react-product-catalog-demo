@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
-    width: 500,
-    height: 450,
+    width: 900,
+    height: 600,
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
@@ -29,7 +29,7 @@ const ProductCatalog = () => {
   return (
     <>
         <div className={classes.root}>
-            <ImageList rowHeight={248} className={classes.gridList}>
+            <ImageList rowHeight={248} className={classes.gridList} cols={4}>
                 {ProductData.map((product) => (
                 <ImageListItem key={product.id} width={151} >
                     <img src={product.imageUrl} alt={product.name} width={151} height={218} />
