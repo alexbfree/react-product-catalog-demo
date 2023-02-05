@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
-    /*padding: theme.spacing(8, 0, 6),*/
     padding: '36px 0px 0px'
   },
   heroButtons: {
@@ -95,12 +94,9 @@ function ProductCatalog({ products }) {
       <AppBar position="relative">
         <Toolbar>
           <StoreIcon className={classes.icon} />
-          <Typography variant="h5" color="inherit" noWrap>
+          <Typography variant="h5" color="inherit" className="companyName" noWrap>
             danube.com
           </Typography><br/>
-          {/*<Typography variant="subtitle2" color="inherit" paragraph>
-            Small catalog, small prices.
-          </Typography>*/}
         </Toolbar>
       </AppBar>
       <main>
@@ -111,7 +107,7 @@ function ProductCatalog({ products }) {
               Welcome to our store!
             </Typography>
             <Typography variant="h6" align="center" color="textSecondary" paragraph>
-              Please scroll and browse the catalog below, click for descriptions and add items to your basket to buy.
+              Please scroll and browse the catalog below. <br/> Click for descriptions and add items to your basket to buy.
             </Typography>
             <Typography variant="body1" align="center" color="textSecondary" paragraph>
               Spring Special: Spend over £50 to receive a 15% discount on all DVDs!

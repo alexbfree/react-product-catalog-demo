@@ -29,6 +29,15 @@ module.exports = {
         ]
       },
       {
+        test: /\.(ttf)$/i,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: "fonts/[name].[ext]",
+          },
+        },
+      },
+      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
