@@ -12,6 +12,28 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
     },
     paper: {
+        position: "absolute",
+        width: "60%",
+        backgroundColor: theme.palette.background.paper,
+        border: "2px solid #000",
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+    },
+        button: {
+        margin: theme.spacing(1),
+    },
+    closeButton: {
+        position: 'absolute',
+        top: theme.spacing(1),
+        right: theme.spacing(1),
+    },
+    /*paper: {
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
@@ -20,18 +42,18 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
-    },
+    },*/
     /*closeButton: {
         position: 'absolute',
         top: theme.spacing(2),
         right: theme.spacing(2),
     },*/
-    buttonsContainer: {
+    /*buttonsContainer: {
         width: '100%',
         display: 'flex',
         justifyContent: 'flex-end',
         marginTop: theme.spacing(2)
-    }
+    }*/
 }));
 
 const ProductModal = ({ selectedProduct, handleClose }) => {
@@ -48,23 +70,21 @@ const ProductModal = ({ selectedProduct, handleClose }) => {
       className={classes.modal}
     >
       <div className={classes.paper}>
+        <Button className={classes.closeButton} onClick={handleClose}>
+          <CloseIcon />
+        </Button>
         <h3>{selectedProduct.name}</h3>
         <p>
             <img src={selectedProduct.imageUrl} alt={selectedProduct.name} width={151} height={218} />
         </p>
         <p>{selectedProduct.description}</p>
-        <p>Price: £{selectedProduct.price}</p>
         <div className={classes.buttonsContainer}>
           <Button
             variant="contained"
             color="primary"
-            endIcon={<AddShoppingCartIcon />}
+            startIcon={<AddShoppingCartIcon />}
           >
-            Buy
-          </Button>
-          <Button variant="contained" className={classes.closeButton} onClick={handleClose}>
-            <CloseIcon />
-            <p>Cancel</p>
+            {'£'+selectedProduct.price+' - Add to Basket'}
           </Button>
         </div>
       </div>
