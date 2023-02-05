@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import StoreIcon from '@material-ui/icons/Store';
@@ -9,10 +9,10 @@ import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { ImageList, ImageListItem, ImageListItemBar } from '@material-ui/core'
+import { ImageList, ImageListItem, ImageListItemBar } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import ProductData from '../../data/products';
+import ProductModal from './ProductModal';
 import '../css/custom.css';
 
 function Copyright() {
@@ -43,19 +43,6 @@ const useStyles = makeStyles((theme) => ({
   heroButtons: {
     marginTop: theme.spacing(4),
   },
-/*
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-*/
   catalogRoot: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -76,15 +63,34 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
+  modal: {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: 'white',
+    padding: '20px'
+  }
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-function Album() {
+function ProductCatalog({ products }) {
   const classes = useStyles();
+
+  // declare state for keeping track of whether we are currently looking at a single product.
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  // function to set product into state when selected
+  const handleProductClick = product => {
+    setSelectedProduct(product);
+  };  
 
   return (
     <React.Fragment>
+      {selectedProduct &&
+      <ProductModal
+        selectedProduct={selectedProduct}
+        handleClose={() => setSelectedProduct(null)}
+      />}
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
@@ -92,20 +98,20 @@ function Album() {
           <Typography variant="h5" color="inherit" noWrap>
             danube.com
           </Typography><br/>
-          <Typography variant="subtitle2" color="inherit" paragraph>
+          {/*<Typography variant="subtitle2" color="inherit" paragraph>
             Small catalog, small prices.
-          </Typography>
+          </Typography>*/}
         </Toolbar>
       </AppBar>
       <main>
         {/* Hero unit */}
-        <div className={classes.heroContent + " smaller-hero"}>
+        <div className={classes.heroContent}>
           <Container maxWidth="md">
             <Typography component="h3" variant="h2" align="center" color="textPrimary" gutterBottom>
               Welcome to our store!
             </Typography>
             <Typography variant="h6" align="center" color="textSecondary" paragraph>
-              Please browse the catalog below, add items to your basket to buy.
+              Please scroll and browse the catalog below, click for descriptions and add items to your basket to buy.
             </Typography>
             <Typography variant="body1" align="center" color="textSecondary" paragraph>
               Spring Special: Spend over £50 to receive a 15% discount on all DVDs!
@@ -131,8 +137,13 @@ function Album() {
           {/* End hero unit */}
           <div className={classes.catalogRoot}>
             <ImageList rowHeight={248} className={classes.gridList} cols={4}>
-                {ProductData.map((product) => (
-                <ImageListItem key={product.id} width={151} >
+                {products.map((product) => (
+                <ImageListItem 
+                  key={product.id} 
+                  width={151} 
+                  onClick={() => handleProductClick(product)}
+                  style={{ cursor: "pointer" }}
+                  >
                     <img src={product.imageUrl} alt={product.name} width={151} height={218} />
                     <ImageListItemBar
                     title={product.name}
@@ -141,7 +152,7 @@ function Album() {
                         <IconButton
                         aria-label={`Information about ${product.name}`}
                         className={classes.icon}
-                        onClick={() => openModal(product)}
+                        /*onClick={() => addToBasket(product)} */
                         >
                         <AddShoppingCartIcon />
                         </IconButton>
@@ -159,9 +170,8 @@ function Album() {
           About this site
         </Typography>
         <Typography variant="body2" align="center" color="textSecondary" component="p">
-          This website was produced by <a href="http://linkedin.alexbowyer.com/">Alex Bowyer</a> as an exercise for his job application to Synanetics. 
-          <p>An important note: I have not used React much, so this website should be used as a measure of my ability to pick up a different language quickly and deliver something that meets the functional requirements. Because of this, I focused on functionality and robustness over visual design; it is not intended to represent my best CSS/styling/branding/layout skills, that was not my focus in the time available.
-          </p>
+          This website was produced by me, <a href="http://linkedin.alexbowyer.com/">Alex Bowyer</a> as an exercise for my job application to Synanetics. 
+          <br/>An important note: I have not used React much, so this website is most useful as a measure of my ability to pick up a different language quickly and deliver something that meets the functional requirements. I focused on functionality and robustness over visual design; it is not intended to represent my best CSS/styling/branding/layout skills, that was not my focus in the time available.
         </Typography>
         <Copyright />
       </footer>
@@ -170,4 +180,4 @@ function Album() {
   );
 }
 
-export default Album
+export default ProductCatalog

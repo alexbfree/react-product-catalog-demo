@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import ProductCatalog from './components/ProductCatalog'
+import ProductData from '../data/products';
 
 function App() {
   return (
-    <ProductCatalog />
+    <ProductCatalog products={ProductData} />
   );
 }
 

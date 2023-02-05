@@ -49,7 +49,7 @@ const products = [
         imageUrl: "https://m.media-amazon.com/images/I/71nLrAXVDzL._AC_UL640_FMwebp_QL65_.jpg"
     },
     {
-        id: 29,
+        id: 8,
         name: "Pulp Fiction",
         description: "Quentin Tarantino's Pulp Fiction is a darkly comedic masterpiece that explores the criminal underworld of Los Angeles. With a star-studded cast, including John Travolta, Uma Thurman, and Samuel L. Jackson, this film is considered a classic of modern cinema.",
         price: 9.99,
