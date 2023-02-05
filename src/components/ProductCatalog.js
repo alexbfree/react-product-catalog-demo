@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import StoreIcon from '@material-ui/icons/Store';
@@ -78,16 +78,72 @@ function ProductCatalog({ products }) {
   // declare state for keeping track of whether we are currently looking at a single product.
   const [selectedProduct, setSelectedProduct] = useState(null);
 
+  // declare state for keeping track of current basket contents. (which is same format as products, but with additional quantity field)
+  const [basketContents, setBasketContents = (newBasketContents) => {
+    if (newBasketContents != basketContents) {
+      basketContents = newBasketContents
+    };
+  }] = useState([]);
+
+  // declare state for keeping track of whether we recently added a product to cart (so we can show feedback on the add)
+  const [recentlyAddedProducts, setRecentlyAddedProducts] = useState([]);
+
+  useEffect(() => {
+    /* will remove any recently added product after 2.5 seconds. */
+    /* known limitation: any products added quickly after a previous one will end up being removed early. */
+    if (recentlyAddedProducts.length>0) {
+      setTimeout(() => {
+        setRecentlyAddedProducts([]);
+      }, 2500);
+    }
+  }, [recentlyAddedProducts]);
+
   // function to set product into state when selected
   const handleProductClick = product => {
     setSelectedProduct(product);
   };  
 
+  const addProductToBasketFromCatalogPage = (productToAdd) => {
+    console.log('buying from catalog page: '+productToAdd.name);
+    const basketItem = basketContents.find((item) => item.id === productToAdd.id);
+    if (basketItem) {
+    basketItem.quantity++;
+    setBasketContents([...basketContents]);
+    } else {
+    setBasketContents([...basketContents, { ...productToAdd, quantity: 1 }]);
+    }
+  };
+
+  const addProductToBasketFromProductInfoModal = (productToAdd, previousBasketContents) => {
+    console.log('buying from product info page: '+productToAdd.name);
+    const basketItem = previousBasketContents.find((item) => item.id === productToAdd.id);
+    if (basketItem) {
+      basketItem.quantity++;
+      setBasketContents([...previousBasketContents]);
+    } else {
+      setBasketContents([...previousBasketContents, { ...productToAdd, quantity: 1 }]);
+    }
+  };
+
+  const handleProductBuyOnCatalogPageClick = (event, productToAdd) => {
+    event.stopPropagation(); /* ensure that we don't also trigger product info modal */
+    addProductToBasketFromCatalogPage(productToAdd);
+  };
+
   return (
     <React.Fragment>
+      {
+        console.log('at boot, basketContents is')
+      }
+      {
+        console.dir(basketContents)
+      }
       {selectedProduct &&
       <ProductModal
         selectedProduct={selectedProduct}
+        handleBuySelectedProductClick={() => {
+          addProductToBasketFromProductInfoModal(selectedProduct, basketContents);
+        }}
         handleClose={() => setSelectedProduct(null)}
       />}
       <CssBaseline />
@@ -100,7 +156,6 @@ function ProductCatalog({ products }) {
         </Toolbar>
       </AppBar>
       <main>
-        {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth="md">
             <Typography component="h3" variant="h2" align="center" color="textPrimary" gutterBottom>
@@ -130,7 +185,6 @@ function ProductCatalog({ products }) {
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
           <div className={classes.catalogRoot}>
             <ImageList rowHeight={248} className={classes.gridList} cols={4}>
                 {products.map((product) => (
@@ -148,7 +202,7 @@ function ProductCatalog({ products }) {
                         <IconButton
                         aria-label={`Information about ${product.name}`}
                         className={classes.icon}
-                        /*onClick={() => addToBasket(product)} */
+                        onClick={(event) => {handleProductBuyOnCatalogPageClick(event,product)}}
                         >
                         <AddShoppingCartIcon />
                         </IconButton>
@@ -160,7 +214,6 @@ function ProductCatalog({ products }) {
         </div>
         </Container>
       </main>
-      {/* Footer */}
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
           About this site
@@ -171,7 +224,6 @@ function ProductCatalog({ products }) {
         </Typography>
         <Copyright />
       </footer>
-      {/* End footer */}
     </React.Fragment>
   );
 }

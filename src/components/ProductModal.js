@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ProductModal = ({ selectedProduct, handleClose }) => {
+const ProductModal = ({ selectedProduct, handleClose, handleBuySelectedProductClick }) => {
   const classes = useStyles();
 
   if (!selectedProduct) {
@@ -71,6 +71,7 @@ const ProductModal = ({ selectedProduct, handleClose }) => {
             variant="contained"
             color="primary"
             startIcon={<AddShoppingCartIcon />}
+            onClick={handleBuySelectedProductClick}
           >
             {'£'+selectedProduct.price+' - Add to Basket'}
           </Button>

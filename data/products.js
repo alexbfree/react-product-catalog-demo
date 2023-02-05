@@ -66,7 +66,7 @@ const products = [
         id: 10,
         name: "Blade Runner 2049",
         description: "The long-awaited sequel to the 1982 classic Blade Runner. Blade Runner 2049 follows a new Blade Runner, LAPD Officer K (Ryan Gosling), who uncovers a secret that leads him to Rick Deckard (Harrison Ford), a former Blade Runner who has been missing for thirty years.",
-        unitPrice: 14.99,
+        price: 14.99,
         imageUrl: "https://m.media-amazon.com/images/I/81qe6CL0Z+L._AC_UY436_FMwebp_QL65_.jpg"
     },
     {
