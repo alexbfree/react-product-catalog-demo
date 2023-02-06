@@ -70,6 +70,7 @@ const ProductModal = ({ selectedProduct, handleClose, handleBuySelectedProductCl
           <Button
             variant="contained"
             color="primary"
+            className="buyButton"
             startIcon={<AddShoppingCartIcon />}
             onClick={handleBuySelectedProductClick}
           >

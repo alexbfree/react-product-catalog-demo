@@ -4,7 +4,28 @@
     margin:0 auto;
 }
 
+.MuiImageListItemBar-title {
+    font-weight: 500 !important;
+}
+
+.MuiImageListItemBar-subtitle {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+}
+
 h5.companyName {
     margin-left: 0.5rem;
     font-weight: 600;
+}
+
+button.buyButton span.MuiButton-label {
+    font-weight: 700;
+}
+
+table.basketTable {
+    margin-bottom: 0.5rem;
+}
+
+table.basketTable tr td.MuiTableCell-root {
+    padding: 2px 16px;
 }

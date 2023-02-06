@@ -13,6 +13,7 @@ import { ImageList, ImageListItem, ImageListItemBar } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import ProductModal from './ProductModal';
+import BasketModal from './BasketModal';
 import '../css/custom.css';
 
 function Copyright() {
@@ -78,6 +79,9 @@ function ProductCatalog({ products }) {
   // declare state for keeping track of whether we are currently looking at a single product.
   const [selectedProduct, setSelectedProduct] = useState(null);
 
+  // declare state for keeping track of whether we are currently looking at the basket
+  const [shouldShowBasket, setShouldShowBasket] = useState(null);
+ 
   // declare state for keeping track of current basket contents. (which is same format as products, but with additional quantity field)
   const [basketContents, setBasketContents = (newBasketContents) => {
     if (newBasketContents != basketContents) {
@@ -104,7 +108,6 @@ function ProductCatalog({ products }) {
   };  
 
   const addProductToBasketFromCatalogPage = (productToAdd) => {
-    console.log('buying from catalog page: '+productToAdd.name);
     const basketItem = basketContents.find((item) => item.id === productToAdd.id);
     if (basketItem) {
     basketItem.quantity++;
@@ -115,7 +118,6 @@ function ProductCatalog({ products }) {
   };
 
   const addProductToBasketFromProductInfoModal = (productToAdd, previousBasketContents) => {
-    console.log('buying from product info page: '+productToAdd.name);
     const basketItem = previousBasketContents.find((item) => item.id === productToAdd.id);
     if (basketItem) {
       basketItem.quantity++;
@@ -132,17 +134,17 @@ function ProductCatalog({ products }) {
 
   return (
     <React.Fragment>
-      {
-        console.log('at boot, basketContents is')
-      }
-      {
-        console.dir(basketContents)
-      }
+      {shouldShowBasket &&
+      <BasketModal
+        basketContents= {basketContents}
+        handleClose={() => setShouldShowBasket(false)}
+        />}
       {selectedProduct &&
       <ProductModal
         selectedProduct={selectedProduct}
         handleBuySelectedProductClick={() => {
           addProductToBasketFromProductInfoModal(selectedProduct, basketContents);
+          setSelectedProduct(null);
         }}
         handleClose={() => setSelectedProduct(null)}
       />}
@@ -165,13 +167,14 @@ function ProductCatalog({ products }) {
               Please scroll and browse the catalog below. <br/> Click for descriptions and add items to your basket to buy.
             </Typography>
             <Typography variant="body1" align="center" color="textSecondary" paragraph>
-              Spring Special: Spend over £50 to receive a 15% discount on all DVDs!
+              Spring Special Offer: Spend over £50 to receive a 15% discount on all DVDs!
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justifyContent="center">
                 <Grid item>
-                  <Button variant="contained" color="primary">
-                    View your basket
+                  <Button variant="contained" color="primary"
+                    onClick = { () => setShouldShowBasket(true) }>
+                    View your basket ({basketContents.length})
                   </Button>
                 </Grid>
                   {/* hidden */}

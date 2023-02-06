@@ -50,7 +50,7 @@ const products = [
     },
     {
         id: 8,
-        name: "Pulp Fiction",
+        name: "DVD: Pulp Fiction",
         description: "Quentin Tarantino's Pulp Fiction is a darkly comedic masterpiece that explores the criminal underworld of Los Angeles. With a star-studded cast, including John Travolta, Uma Thurman, and Samuel L. Jackson, this film is considered a classic of modern cinema.",
         price: 9.99,
         imageUrl: "https://m.media-amazon.com/images/I/61EQB62jxQL._AC_UY436_FMwebp_QL65_.jpg"
@@ -64,7 +64,7 @@ const products = [
     },
     {
         id: 10,
-        name: "Blade Runner 2049",
+        name: "DVD: Blade Runner 2049",
         description: "The long-awaited sequel to the 1982 classic Blade Runner. Blade Runner 2049 follows a new Blade Runner, LAPD Officer K (Ryan Gosling), who uncovers a secret that leads him to Rick Deckard (Harrison Ford), a former Blade Runner who has been missing for thirty years.",
         price: 14.99,
         imageUrl: "https://m.media-amazon.com/images/I/81qe6CL0Z+L._AC_UY436_FMwebp_QL65_.jpg"
@@ -218,7 +218,7 @@ const products = [
     },
     {
         id: 32,
-        name: "The Legend of Zelda: Breath of the Wild",
+        name: "The Legend of Zelda: Breath of the Wild (Nintendo Switch)",
         description: "Embark on a quest to save the kingdom of Hyrule in this critically acclaimed action-adventure game. The Legend of Zelda: Breath of the Wild features a massive open world, innovative gameplay mechanics, and an unforgettable cast of characters. Explore the land, uncover secrets, and face off against formidable foes in your journey to save the land of Hyrule.",
         price: 49.99,
         imageUrl: "https://m.media-amazon.com/images/I/81yCdxV54SL._AC_UY436_FMwebp_QL65_.jpg"
