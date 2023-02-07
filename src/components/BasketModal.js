@@ -14,6 +14,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -53,21 +54,31 @@ const useStyles = makeStyles((theme) => ({
     },
     emptyBasketContainer: {
       width: '40rem',
-      height: '7rem'
+      height: '7rem',
     },
     basketContainer: {
       width: '85%',
-      height: '95%',
+      maxHeight: '95%',
       overflowY: 'scroll',
     },
     checkoutButton: {
-      width: '100%',
-      textAlign: 'center',
+      width: '66%',
+      textAlign: 'left',
       marginTop: theme.spacing(2)
     },
+    emptyButton: {
+      width: '33%',
+      marginLeft: theme.spacing(1),
+      textAlign: 'right',
+      marginTop: theme.spacing(2)
+    },
+    buttonsContainer: {
+      display: 'flex',
+      justifyContent: 'space-between'
+    }
 }));
 
-const BasketModal = ({ basketContents, onProductQuantityChange, onClose }) => {
+const BasketModal = ({ basketContents, onProductQuantityChange, onClose, onEmptyBasket }) => {
   const classes = useStyles();
   const [basketTotal, setBasketTotal] = React.useState(0);
 
@@ -97,7 +108,7 @@ const BasketModal = ({ basketContents, onProductQuantityChange, onClose }) => {
           <div>
           <Typography gutterBottom>
             <div>
-              <TableContainer component={Paper} className={'basketTable'} gutterBottom>
+              <TableContainer component={Paper} className={'basketTable'}>
                 <Table className={classes.table} cols="5" aria-label="Shopping Basket">
                   <TableHead>
                     <TableRow>
@@ -152,6 +163,14 @@ const BasketModal = ({ basketContents, onProductQuantityChange, onClose }) => {
               startIcon={<ShoppingCartIcon />}
             >
               {'£'+basketTotal+' - Checkout Now'}
+            </Button>
+            <Button className={classes.emptyButton}
+              variant="contained"
+              color="secondary"
+              startIcon={<DeleteIcon />}
+              onClick={onEmptyBasket}
+            >
+              {'Empty Basket'}
             </Button>
           </div>
         </div>}  

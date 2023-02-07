@@ -117,6 +117,10 @@ function ProductCatalog({ products }) {
     }
   };
 
+  const emptyBasket = () => {
+    setBasketContents([]);
+  }
+
   const addProductToBasket = (productToAdd, previousBasketContents) => {
     const basketItem = previousBasketContents.find((item) => item.id === productToAdd.id);
     if (basketItem) {
@@ -155,6 +159,7 @@ function ProductCatalog({ products }) {
         basketContents= {basketContents}
         onProductQuantityChange={(productToChange,newQuantity) => handleProductQuantityChange(productToChange, newQuantity)}
         onClose={() => setShouldShowBasket(false)}
+        onEmptyBasket={() => emptyBasket()}
         />}
       {selectedProduct &&
       <ProductModal
