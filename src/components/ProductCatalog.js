@@ -107,24 +107,40 @@ function ProductCatalog({ products }) {
     setSelectedProduct(product);
   };  
 
-  const addProductToBasketFromCatalogPage = (productToAdd) => {
-    const basketItem = basketContents.find((item) => item.id === productToAdd.id);
-    if (basketItem) {
-    basketItem.quantity++;
-    setBasketContents([...basketContents]);
+  const handleProductQuantityChange = (productToChange, newQuantity) => {
+    if (newQuantity === 0) {
+      setBasketContents(basketContents.filter(item => item.id !== productToChange.id));
     } else {
-    setBasketContents([...basketContents, { ...productToAdd, quantity: 1 }]);
+      const basketItem = basketContents.find((item) => item.id === productToChange.id);
+      basketItem.quantity = newQuantity;
+      setBasketContents([...basketContents]);
     }
   };
 
-  const addProductToBasketFromProductInfoModal = (productToAdd, previousBasketContents) => {
+  const addProductToBasket = (productToAdd, previousBasketContents) => {
     const basketItem = previousBasketContents.find((item) => item.id === productToAdd.id);
     if (basketItem) {
-      basketItem.quantity++;
-      setBasketContents([...previousBasketContents]);
+    basketItem.quantity++;
+    setBasketContents([...previousBasketContents]);
     } else {
-      setBasketContents([...previousBasketContents, { ...productToAdd, quantity: 1 }]);
+    setBasketContents([...previousBasketContents, { ...productToAdd, quantity: 1 }]);
     }
+  };
+
+  const getTotalDistinctItemsInBasket = () => {
+    let total = 0;
+    basketContents.forEach((item) => {
+      total += item.quantity;
+    });
+    return total;
+  };
+
+  const addProductToBasketFromCatalogPage = (productToAdd) => {
+    addProductToBasket(productToAdd, basketContents)
+  };
+
+  const addProductToBasketFromProductInfoModal = (productToAdd, previousBasketContents) => {
+    addProductToBasket(productToAdd, previousBasketContents)
   };
 
   const handleProductBuyOnCatalogPageClick = (event, productToAdd) => {
@@ -137,7 +153,8 @@ function ProductCatalog({ products }) {
       {shouldShowBasket &&
       <BasketModal
         basketContents= {basketContents}
-        handleClose={() => setShouldShowBasket(false)}
+        onProductQuantityChange={(productToChange,newQuantity) => handleProductQuantityChange(productToChange, newQuantity)}
+        onClose={() => setShouldShowBasket(false)}
         />}
       {selectedProduct &&
       <ProductModal
@@ -174,7 +191,7 @@ function ProductCatalog({ products }) {
                 <Grid item>
                   <Button variant="contained" color="primary"
                     onClick = { () => setShouldShowBasket(true) }>
-                    View your basket ({basketContents.length})
+                    View your basket ({getTotalDistinctItemsInBasket()})
                   </Button>
                 </Grid>
                   {/* hidden */}

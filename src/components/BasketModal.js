@@ -1,5 +1,7 @@
 import React from 'react';
 import Modal from '@material-ui/core/Modal';
+import Select from "@material-ui/core/Select";
+import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
@@ -65,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const BasketModal = ({ basketContents, handleClose }) => {
+const BasketModal = ({ basketContents, onProductQuantityChange, onClose }) => {
   const classes = useStyles();
   const [basketTotal, setBasketTotal] = React.useState(0);
 
@@ -78,11 +80,11 @@ const BasketModal = ({ basketContents, handleClose }) => {
   return (
     <Modal
       open={basketContents !== null}
-      onClose={handleClose}
+      onClose = {onClose}
       className={classes.modal}
     >
       <div className={classes.paper+' '+(basketContents.length>0 ? classes.basketContainer : classes.emptyBasketContainer)}>
-        <Button className={classes.closeButton} onClick={handleClose}>
+        <Button className={classes.closeButton} onClick={onClose}>
           <CloseIcon />
         </Button>
         <Typography variant="h4" align="center" gutterBottom>
@@ -115,7 +117,16 @@ const BasketModal = ({ basketContents, handleClose }) => {
                           {product.name}
                         </TableCell>
                         <TableCell align="right">£{product.price}</TableCell>
-                        <TableCell align="center">{product.quantity}</TableCell>
+                        <TableCell align="center">
+                          <Select value={product.quantity} onChange={(event) => onProductQuantityChange(
+                            product, /* the product being changed */
+                            event.target.value /* the new quantity */
+                            )}>
+                            {[...Array(11).keys()].map((qty) => (
+                              <MenuItem key={qty} value={qty}>{qty}</MenuItem>
+                            ))}
+                          </Select>
+                        </TableCell>
                         <TableCell align="right">£{(product.price * product.quantity).toFixed(2)}</TableCell>
                       </TableRow>
                     ))}
