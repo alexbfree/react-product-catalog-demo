@@ -244,7 +244,7 @@ function ProductCatalog({ products }) {
           About this site
         </Typography>
         <Typography variant="body2" align="center" color="textSecondary" component="p">
-          This website was produced by me, <a href="http://linkedin.alexbowyer.com/">Alex Bowyer</a> as an exercise for my job application to Synanetics. 
+          This website was produced by me, <a href="http://linkedin.alexbowyer.com/">Alex Bowyer</a> as an exercise for a job application. 
           <br/>An important note: I have not used React much, so this website is most useful as a measure of my ability to pick up a different language quickly and deliver something that meets the functional requirements. I focused on functionality and robustness over visual design; it is not intended to represent my best CSS/styling/branding/layout skills, that was not my focus in the time available.
         </Typography>
         <Copyright />
