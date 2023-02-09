@@ -297,7 +297,7 @@ function ProductCatalog({ products }) {
               Welcome to our store!
             </Typography>
             <Typography variant="h6" align="center" color="textSecondary" paragraph>
-              Please scroll and browse the catalog below. <br/> Click for descriptions and add items to your basket to buy.
+              Please scroll and browse our catalogue below. <br/> Click for descriptions and add items to your basket to buy.
             </Typography>
             <Typography variant="body1" align="center" color="textSecondary" paragraph>
               Spring Special Offer: Spend over £50 to receive a 15% discount on all DVDs!
