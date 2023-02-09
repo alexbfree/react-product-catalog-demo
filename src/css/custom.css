@@ -29,3 +29,8 @@ table.basketTable {
 table.basketTable tr td.MuiTableCell-root {
     padding: 2px 16px;
 }
+
+span.struckThroughPrice {
+    text-decoration: line-through;
+    color: red;
+}

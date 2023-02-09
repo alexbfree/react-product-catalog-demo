@@ -76,8 +76,7 @@ const useStyles = makeStyles((theme) => ({
 function ProductCatalog({ products }) {
   const classes = useStyles();
 
-  // declare state for keeping track of whether we are currently looking at a single product.
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  /****** BASKET LOGIC ******/
 
   // declare state for keeping track of whether we are currently looking at the basket
   const [shouldShowBasket, setShouldShowBasket] = useState(null);
@@ -89,24 +88,17 @@ function ProductCatalog({ products }) {
     };
   }] = useState([]);
 
-  // declare state for keeping track of whether we recently added a product to cart (so we can show feedback on the add)
-  const [recentlyAddedProducts, setRecentlyAddedProducts] = useState([]);
+  // state to store the simple basket total (if no discounts)
+  const [basketTotal, setBasketTotal] = React.useState(0);  
 
-  useEffect(() => {
-    /* will remove any recently added product after 2.5 seconds. */
-    /* known limitation: any products added quickly after a previous one will end up being removed early. */
-    if (recentlyAddedProducts.length>0) {
-      setTimeout(() => {
-        setRecentlyAddedProducts([]);
-      }, 2500);
-    }
-  }, [recentlyAddedProducts]);
+  // when the basket contents change, recalculate the simple total
+  React.useEffect(() => {
+    setBasketTotal(
+      basketContents.reduce((acc, cur) => acc + cur.price * cur.quantity, 0)
+    );
+  }, [basketContents]);
 
-  // function to set product into state when selected
-  const handleProductClick = product => {
-    setSelectedProduct(product);
-  };  
-
+  // function to update product quantity
   const handleProductQuantityChange = (productToChange, newQuantity) => {
     if (newQuantity === 0) {
       setBasketContents(basketContents.filter(item => item.id !== productToChange.id));
@@ -117,10 +109,12 @@ function ProductCatalog({ products }) {
     }
   };
 
+  // function to empty the basket 
   const emptyBasket = () => {
     setBasketContents([]);
   }
 
+  // standard function to add product to basket, regardless where clicked
   const addProductToBasket = (productToAdd, previousBasketContents) => {
     const basketItem = previousBasketContents.find((item) => item.id === productToAdd.id);
     if (basketItem) {
@@ -129,8 +123,10 @@ function ProductCatalog({ products }) {
     } else {
     setBasketContents([...previousBasketContents, { ...productToAdd, quantity: 1 }]);
     }
+    setShouldShowBasket(true);
   };
 
+  // function to find how many distinct items (taking account quantities) are in basket
   const getTotalDistinctItemsInBasket = () => {
     let total = 0;
     basketContents.forEach((item) => {
@@ -150,7 +146,120 @@ function ProductCatalog({ products }) {
   const handleProductBuyOnCatalogPageClick = (event, productToAdd) => {
     event.stopPropagation(); /* ensure that we don't also trigger product info modal */
     addProductToBasketFromCatalogPage(productToAdd);
+  };  
+
+  /****** DISCOUNT LOGIC *****/
+
+  /* Note: Normally this would not be in client-side code as it's unsafe, 
+  this is a known limitation for now. But since we are client-side, 
+  best to put the logic into a passed in constant */
+  const discountLogic={};
+  discountLogic.discountRate = 0.15, /* 15% discount rate for DVDs */
+  discountLogic.minimumSpendThreshold = 50.00 /* spend at least £50 for discount */
+  
+  /* function to determine whether passed in product qualifies for discount */
+  discountLogic.productDiscountTester = (productToTest) => {
+    let should = false;
+    if (productToTest.name.startsWith("DVD")) {
+      should = true;
+    }
+    return should;
+    /* a better way to do this would be a category field or discount field on the product,
+      but this will do for now. */
   };
+
+  /* function to determine whether the current basket contents qualify for discount */
+  discountLogic.basketDiscountTester = () => {
+      let isDiscountApplicableToThisBasket = false;
+      if (basketTotal > discountLogic.minimumSpendThreshold) {
+        isDiscountApplicableToThisBasket = true;
+      }
+      return isDiscountApplicableToThisBasket;
+  };
+
+  // calculate the billable price for a product
+  // (discounting it only if basket is eligible and this product is eligible)
+  // otherwise just return standard non-discounted price
+  discountLogic.getDiscountedPrice = (productToDiscount) => {
+    let returnPrice = productToDiscount.price;
+    if (discountLogic.basketDiscountTester() && 
+       discountLogic.productDiscountTester(productToDiscount)) {
+        returnPrice = (1.00-discountLogic.discountRate) * 
+                      productToDiscount.price;
+    }
+    return returnPrice;
+  }
+
+  // calculate the subtotal for a product, taking into account quantity, with discounts applied 
+  // (this is used instead of a simple (product*quantity) calculation when discounts are in effect */
+  discountLogic.getBillableProductSubtotal = (product) => {
+    let subtotal = product.price * product.quantity;
+    if (discountLogic.basketDiscountTester() &&
+        discountLogic.productDiscountTester(product)) {
+          subtotal = (1.00-discountLogic.discountRate) * 
+          product.price * 
+          parseFloat(product.quantity);
+    }
+    return subtotal;
+  };
+
+  // calculate the basket total with discounts applied 
+  // (this is used instead of basketTotal when discounts are in effect */
+  discountLogic.getBillableBasketTotal = (basketContents) => {
+      let billableBasketTotal = parseFloat(basketTotal);
+      if (discountLogic.basketDiscountTester()) {
+        let totalAccountingForDiscounts = 0.00;
+        basketContents.forEach((productToAddToTotal) => {
+          let amountToAdd = discountLogic.getDiscountedPrice(productToAddToTotal) * parseFloat(productToAddToTotal.quantity);
+          totalAccountingForDiscounts = totalAccountingForDiscounts + amountToAdd;
+        });
+        billableBasketTotal = totalAccountingForDiscounts;
+      };
+      return billableBasketTotal;
+  };
+
+  // test whether at least one product has a discount, ie. we are in discount mode
+  discountLogic.discountIsInEffectForBasket = () => {
+    // if basket total qualifies, and at least one product qualifies, discount is in effect.
+    let discountIsInEffect = false;
+    if (discountLogic.basketDiscountTester()) {
+      let foundAtLeastOneDiscountedProduct = false;
+      basketContents.forEach((product) => {
+        if (discountLogic.productDiscountTester(product)) {
+          foundAtLeastOneDiscountedProduct = true;
+        }
+      });
+    }
+    return discountIsInEffect;
+  }
+
+  // check if any eligible products are in basket.
+  discountLogic.countDiscountEligibleProductsInBasket = () => {
+    let eligibleProductsFound=0;
+    basketContents.forEach((productToCheck) => {
+      if (discountLogic.productDiscountTester(productToCheck)) {
+        eligibleProductsFound++;
+      }
+    });
+    return eligibleProductsFound;
+  }
+
+  // calculate savings (0.00 if no discount in effect)
+  discountLogic.getSavings = () => {
+    return (basketTotal - discountLogic.getBillableBasketTotal(basketContents));
+  }
+
+  /****** PRODUCT VIEWING LOGIC ******/
+
+  // declare state for keeping track of whether we are currently looking at a single product.
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  // function to set product into state when selected
+  const handleProductClick = product => {
+    setSelectedProduct(product);
+  };  
+
+  /****** PAGE STRUCTURE ******/
 
   return (
     <React.Fragment>
@@ -160,6 +269,7 @@ function ProductCatalog({ products }) {
         onProductQuantityChange={(productToChange,newQuantity) => handleProductQuantityChange(productToChange, newQuantity)}
         onClose={() => setShouldShowBasket(false)}
         onEmptyBasket={() => emptyBasket()}
+        discountLogic={discountLogic}
         />}
       {selectedProduct &&
       <ProductModal
@@ -169,6 +279,7 @@ function ProductCatalog({ products }) {
           setSelectedProduct(null);
         }}
         handleClose={() => setSelectedProduct(null)}
+        discountLogic={discountLogic}
       />}
       <CssBaseline />
       <AppBar position="relative">
@@ -199,12 +310,6 @@ function ProductCatalog({ products }) {
                     View your basket ({getTotalDistinctItemsInBasket()})
                   </Button>
                 </Grid>
-                  {/* hidden */}
-                  {false && <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Secondary action
-                  </Button>
-                  </Grid>}
               </Grid>
             </div>
           </Container>

@@ -1,20 +1,12 @@
 import React from 'react';
 import Modal from '@material-ui/core/Modal';
-import Select from "@material-ui/core/Select";
-import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import Button from '@material-ui/core/Button';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import DeleteIcon from '@material-ui/icons/Delete';
+import ShoppingBasketTable from './ShoppingBasketTable';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -75,18 +67,26 @@ const useStyles = makeStyles((theme) => ({
     buttonsContainer: {
       display: 'flex',
       justifyContent: 'space-between'
+    },
+    discountBanner: {
+      border: '2px solid #ffb8b8',
+      color: '#ee5555',
+      borderRadius: '1rem',
+      fontWeight: '600',
+      fontSize: '0.8rem',
+      backgroundColor: 'rgba(255, 56, 56, 0.05)',
+      padding: '0.5rem 1rem'
+    },
+    discountPS: {
+      color: '#ee5555',
+      fontWeight: '600',
+      fontSize: '0.8rem',
+      padding: '0.5rem 1rem'
     }
 }));
 
-const BasketModal = ({ basketContents, onProductQuantityChange, onClose, onEmptyBasket }) => {
+const BasketModal = ({ basketContents, onProductQuantityChange, onClose, onEmptyBasket, discountLogic }) => {
   const classes = useStyles();
-  const [basketTotal, setBasketTotal] = React.useState(0);
-
-  React.useEffect(() => {
-    setBasketTotal(
-      basketContents.reduce((acc, cur) => acc + cur.price * cur.quantity, 0).toFixed(2)
-    );
-  }, [basketContents]);
 
   return (
     <Modal
@@ -106,54 +106,13 @@ const BasketModal = ({ basketContents, onProductQuantityChange, onClose, onEmpty
         }
         {basketContents.length > 0 && 
           <div>
-          <Typography gutterBottom>
-            <div>
-              <TableContainer component={Paper} className={'basketTable'}>
-                <Table className={classes.table} cols="5" aria-label="Shopping Basket">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="left" colSpan="2">Product</TableCell>
-                      <TableCell align="right">Price</TableCell>
-                      <TableCell align="center">Quantity</TableCell>
-                      <TableCell align="right">Total</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {basketContents.map((product) => (
-                      <TableRow key={product.id}>
-                        <TableCell align="center">
-                          <img src={product.imageUrl} alt={product.name} height={55} />
-                        </TableCell>
-                        <TableCell>
-                          {product.name}
-                        </TableCell>
-                        <TableCell align="right">£{product.price}</TableCell>
-                        <TableCell align="center">
-                          <Select value={product.quantity} onChange={(event) => onProductQuantityChange(
-                            product, /* the product being changed */
-                            event.target.value /* the new quantity */
-                            )}>
-                            {[...Array(11).keys()].map((qty) => (
-                              <MenuItem key={qty} value={qty}>{qty}</MenuItem>
-                            ))}
-                          </Select>
-                        </TableCell>
-                        <TableCell align="right">£{(product.price * product.quantity).toFixed(2)}</TableCell>
-                      </TableRow>
-                    ))}
-                    <TableRow>
-                      <TableCell colSpan={4} className={classes.total}>
-                        Total:
-                      </TableCell>
-                      <TableCell align="right" className={classes.total}>
-                        £{basketTotal}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </div>
-          </Typography>
+          <div>
+            <ShoppingBasketTable 
+              basketContents = {basketContents}
+              onProductQuantityChange = {onProductQuantityChange}
+              discountLogic = {discountLogic}
+            />
+          </div>
           <div className={classes.buttonsContainer}>
             <Button className={classes.checkoutButton}
               variant="contained"
@@ -162,7 +121,7 @@ const BasketModal = ({ basketContents, onProductQuantityChange, onClose, onEmpty
               disabled={true} /* Checkout permanently disabled for the purposes of this exercise */
               startIcon={<ShoppingCartIcon />}
             >
-              {'£'+basketTotal+' - Checkout Now'}
+              {'£'+discountLogic.getBillableBasketTotal(basketContents).toFixed(2)+' - Checkout Now'}
             </Button>
             <Button className={classes.emptyButton}
               variant="contained"
