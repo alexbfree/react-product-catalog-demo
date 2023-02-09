@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "column",
         alignItems: "center",
     },
-        button: {
+    button: {
         margin: theme.spacing(1),
     },
     closeButton: {
@@ -37,10 +37,26 @@ const useStyles = makeStyles((theme) => ({
     imageTextContainer: {
       marginTop: '12px',
       textAlign: 'center'
-    }
-}));
+    },
+    discountBanner: {
+      border: '2px solid #ffb8b8',
+      color: '#ee5555',
+      borderRadius: '1rem',
+      fontWeight: '600',
+      fontSize: '0.8rem',
+      backgroundColor: 'rgba(255, 56, 56, 0.05)',
+      padding: '0.5rem 1rem'
+    },
+    discountPS: {
+      color: '#ee5555',
+      fontWeight: '600',
+      fontSize: '0.8rem',
+      padding: '0.5rem 1rem'
+    }    
+  })
+);
 
-const ProductModal = ({ selectedProduct, handleClose, handleBuySelectedProductClick }) => {
+const ProductModal = ({ selectedProduct, handleClose, handleBuySelectedProductClick, discountLogic }) => {
   const classes = useStyles();
 
   if (!selectedProduct) {
@@ -60,6 +76,10 @@ const ProductModal = ({ selectedProduct, handleClose, handleBuySelectedProductCl
         <Typography variant="h4" align="center" gutterBottom>
           {selectedProduct.name}
         </Typography>
+        {discountLogic.productDiscountTester(selectedProduct) && 
+          <Typography variant="caption" className={classes.discountBanner}>
+            Discount Available: Spend over £50 and get 15% discount on this and all other DVDs once added to your basket!
+          </Typography>}
         <div className={classes.imageTextContainer}>
           <img src={selectedProduct.imageUrl} alt={selectedProduct.name} height={218} />
           <Typography variant="body1" align="center" color="textSecondary" paragraph>
@@ -76,6 +96,12 @@ const ProductModal = ({ selectedProduct, handleClose, handleBuySelectedProductCl
           >
             {'£'+selectedProduct.price+' - Add to Basket'}
           </Button>
+        </div>  
+        <div className={classes.buttonsPSContainer}>
+          {discountLogic.productDiscountTester(selectedProduct) && 
+          <Typography variant="body2" className={classes.discountPS}>
+            Any discounts will be calculated on the basket page.
+          </Typography>}          
         </div>
       </div>
     </Modal>
