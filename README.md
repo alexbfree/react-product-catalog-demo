@@ -2,7 +2,12 @@
 
 A simple product catalogue / store front end demo using React and MaterialUI 4 - created for a job application.
 
-**Documentation links**:
+## Screenshot:
+
+![screenshot](https://user-images.githubusercontent.com/1473244/218172327-364f6e58-d1f5-464b-b3f5-bf399577ef09.png)
+
+
+## Documentation links:
 
 - [The Assignment](#the-assignment)
 - [Installation Instructions](#installation-instructions)
@@ -36,7 +41,7 @@ You can hard code the products into the API or use a json file, whichever you pr
 
 ## Installation Instructions
 
-To install the full functionality version:
+To install the full functionality "advanced" version:
 
 1. Download the zip file from the `version-with-discounts` branch [here](https://github.com/alexbfree/react-product-catalog-demo/archive/refs/heads/version-with-discounts.zip)
 2. Unzip the zipfile
@@ -114,7 +119,7 @@ In this section I will review some of the known limitations / weaknesses in the 
 
 ### 1. Client-side code only
 
-The biggest limitation is created by my decision not to build the REST API. This necessitates hosting the product data and discount calculations on the client-side, which is a Really Bad Idea in real life, as product prices and discounts could easily be modified in browser to defraud the retailer. It would be important in a real implementation to ensure that all prices were returned from the server, and that all decisions and calculations about current offers and discounts would be handled on the server side, with the client side being strictly read only when it comes to product data, prices, and discounts. Only basket management would be handled locally, and when it came to actually buying products, the client would only pass product IDs - the server would handle the real charged basket pricing billed to the credit card - this would mean any client side modifications to pricing or discount code would have no effect on the transaction.
+The biggest limitation is created by my decision not to build the REST API. As well as meaning I didn't actually use node.js proper (ie. on the server-side), this necessitates hosting the product data and discount calculations on the client-side, which is a Really Bad Idea in real life, as product prices and discounts could easily be modified in browser to defraud the retailer. It would be important in a real implementation to ensure that all prices were returned from the server, and that all decisions and calculations about current offers and discounts would be handled on the server side, with the client side being strictly read only when it comes to product data, prices, and discounts. Only basket management would be handled locally, and when it came to actually buying products, the client would only pass product IDs - the server would handle the real charged basket pricing billed to the credit card - this would mean any client side modifications to pricing or discount code would have no effect on the transaction.
 
 The choice to handle product information client side had implications on the code for discount calculations, leading to my choice to present two separate branches. Since the discount information is needed across multiple parts of the UI, the discount handling logic actually has become quite cumbersome. It would have been an option to move some of this logic out to a utility function, but since discount code should not really be on the client side anyway, I did not do this. So, the discount code is consolidated within the main product catalogue page. Which I don't like. Which is one of the reasons I left the discount code on a separate branch for now.
 
@@ -171,7 +176,11 @@ With more time, I would add briefly visible popup messages (probably using Mater
 
 Something else I would do that is important, is make sure that during any slow operations (such as DB reads, API access, file loads etc), the mouse pointer temporarily changes to an hourglass pointer, so that the system does not appear unresponsive when you click and things don't happen straight away.
 
-## 7. User management, translation, checkout, user reviews, ratings, etc
+## 7. General code cleanup and commenting
+
+I didn't spend as long as I normally would on commenting and cleaning up code. It's quite possible I've left some debug code somewhere or not properly commented certain methods. With more time, I would do a thorough review, ensure no debug statements in the code, and ensure all methods are documented in a consistent format.
+
+## 8. User management, translation, checkout, user reviews, ratings, etc
 
 These are just some of the features that would likely be needed to deliver a complete shopping cart experience. Not to mention the backend payment processing and order delivery/stock management logistics.
 
