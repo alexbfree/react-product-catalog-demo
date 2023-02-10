@@ -188,9 +188,6 @@ function ProductCatalog({ products }) {
             <Typography variant="h6" align="center" color="textSecondary" paragraph>
               Please scroll and browse the catalog below. <br/> Click for descriptions and add items to your basket to buy.
             </Typography>
-            <Typography variant="body1" align="center" color="textSecondary" paragraph>
-              Spring Special Offer: Spend over £50 to receive a 15% discount on all DVDs!
-            </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justifyContent="center">
                 <Grid item>
