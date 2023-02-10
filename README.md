@@ -171,7 +171,11 @@ With more time, I would add briefly visible popup messages (probably using Mater
 
 Something else I would do that is important, is make sure that during any slow operations (such as DB reads, API access, file loads etc), the mouse pointer temporarily changes to an hourglass pointer, so that the system does not appear unresponsive when you click and things don't happen straight away.
 
-## 7. User management, translation, checkout, user reviews, ratings, etc
+## 7. General code cleanup and commenting
+
+I didn't spend as long as I normally would on commenting and cleaning up code. It's quite possible I've left some debug code somewhere or not properly commented certain methods. With more time, I would do a thorough review, ensure no debug statements in the code, and ensure all methods are documented in a consistent format.
+
+## 8. User management, translation, checkout, user reviews, ratings, etc
 
 These are just some of the features that would likely be needed to deliver a complete shopping cart experience. Not to mention the backend payment processing and order delivery/stock management logistics.
 
