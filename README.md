@@ -1,5 +1,7 @@
 # react-product-catalog-demo
 
+![screenshot](https://user-images.githubusercontent.com/1473244/218172327-364f6e58-d1f5-464b-b3f5-bf399577ef09.png)
+
 A simple product catalogue / store front end demo using React and MaterialUI 4 - created for a job application.
 
 **Documentation links**:
