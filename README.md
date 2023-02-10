@@ -95,6 +95,7 @@ The following capabilities are available:
 - (Advanced version only) Be notified about the potential to qualify for discount DVDs if basket total goes above £50.
 - (Advanced version only) When basket total is above £50 and no DVDs are in basket, message encouraging user to add DVDs for instant discount.
 - (Advanced version only) When basket total is over £50 all DVDs in basket are reduced in price by 15%. Original and discounted price are shown, and subtotal and basket total are updated accordingly to take account of the discount.
+- (Advanced version only) When discounts have been applied in basket, user is notified of the total saving.
 - Mockup checkout button shows where checkout facility would be - button does nothing.
 - Responsive UI - shrink the screen and it resizes without messing up the interface. (caveat - not perfect, some left-right scrolling required in basket on v narrow screens in portrait mode)
 - Using a local font from Google Fonts - Raleway (bundled locally)
