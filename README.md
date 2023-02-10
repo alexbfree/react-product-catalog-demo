@@ -38,11 +38,9 @@ You can hard code the products into the API or use a json file, whichever you pr
 
 To install the full functionality version:
 
-```
 1. Download the zip file from the `version-with-discounts` branch [here](https://github.com/alexbfree/react-product-catalog-demo/archive/refs/heads/version-with-discounts.zip)
 2. Unzip the zipfile
 3. Open the `index.html` file in the root directory in your web browser. This uses bundled Webpack files in the `dist` directory to load the site; since all code is client-side no running server is required.
-```
 
 ----
 
@@ -50,8 +48,8 @@ To install the full functionality version:
 
 This repository contains the code I have written for this coding task. There are two branches, with code at different levels, both are fully functional and can be code-inspected:
 
-- [`main` branch] : This version includes all the functionality except the discounts functionality, and is the preferred version for you to inspect the code.
-- [`version-with-discounts` branch]: This version is a more advanced version which includes the discounts functionality, but remains unmerged because in my view it overcomplicates the code, and in a real scenario I would refactor and redesign this functionality before merging into main/production code, which time did not allow in this case.
+- [`main` branch](https://github.com/alexbfree/react-product-catalog-demo/tree/main) : This version includes all the functionality except the discounts functionality, and is the preferred version for you to inspect the code.
+- [`version-with-discounts` branch](https://github.com/alexbfree/react-product-catalog-demo/tree/version-with-discounts): This version is a more advanced version which includes the discounts functionality, but remains unmerged because in my view it overcomplicates the code, and in a real scenario I would refactor and redesign this functionality before merging into main/production code, which time did not allow in this case.
 
 ## To inspect and use the simple version (preferred for code reading):
 
@@ -65,7 +63,7 @@ npm start
 ```
 Then visit http://localhost:8080/ in your browser.
 
-## To inspect and use the advanced version (preferred for maximal feature set):
+## To inspect and use the advanced version (preferred for testing the maximal feature set):
 
 ```
 git clone https://github.com/alexbfree/react-product-catalog-demo.git
@@ -77,10 +75,31 @@ npm start
 ```
 Then visit http://localhost:8080/ in your browser.
 
+On both branches, code can be rebuilt into the `dist` directory using `npm run build`.
+
 ----
 ## Functionality Overview
 
-(to be written)
+The following capabilities are available:
+
+- Browse a list of products (scroll vertically using mouse wheel or scroll bar)
+- Click a product to view a modal popup with description and info. 
+- Close product info popup with X button or click outside modal.
+- View number of items in basket from homepate
+- Add to basket from homepage by clicking +/basket button - basket opens automatically
+- Click `View Basket` button to view contents of basket in detail, including unit prices, quantity, subtotal and total in a modal popup. 
+- Close basket popup with X button or click outside modal.
+- Modify quantity of an item in basket by using the dropdown - subtotals and total are updated.
+- Remove an item from basket by setting its quantity to `0`.
+- Empty basket in one click using `Empty Basket` button.
+- (Advanced version only) Be notified about the potential to qualify for discount DVDs if basket total goes above £50.
+- (Advanced version only) When basket total is above £50 and no DVDs are in basket, message encouraging user to add DVDs for instant discount.
+- (Advanced version only) When basket total is over £50 all DVDs in basket are reduced in price by 15%. Original and discounted price are shown, and subtotal and basket total are updated accordingly to take account of the discount.
+- Mockup checkout button shows where checkout facility would be - button does nothing.
+- Responsive UI - shrink the screen and it resizes without messing up the interface. (caveat - not perfect, some left-right scrolling required in basket on v narrow screens in portrait mode)
+- Using a local font from Google Fonts - Raleway (bundled locally)
+
+**Important note:** Due to limited time, I did not build a REST API to serve up the products data, per the first requirement. Instead I am serving it up within a JS file in the client, which is viable for sample code like this but not for a real-life situation; the implications of this choice are discussed further below.
 
 ----
 ## Personal Reflection / Context
