@@ -36,7 +36,7 @@ You can hard code the products into the API or use a json file, whichever you pr
 
 ## Installation Instructions
 
-To install the full functionality version:
+To install the full functionality "advanced" version:
 
 1. Download the zip file from the `version-with-discounts` branch [here](https://github.com/alexbfree/react-product-catalog-demo/archive/refs/heads/version-with-discounts.zip)
 2. Unzip the zipfile
