@@ -92,6 +92,7 @@ The following capabilities are available:
 - Close product info popup with X button or click outside modal.
 - View number of items in basket from homepate
 - Add to basket from homepage by clicking +/basket button - basket opens automatically
+- Add to basket from product details screen - product info modal closes and basket opens automatically
 - Click `View Basket` button to view contents of basket in detail, including unit prices, quantity, subtotal and total in a modal popup. 
 - Close basket popup with X button or click outside modal.
 - Modify quantity of an item in basket by using the dropdown - subtotals and total are updated.
